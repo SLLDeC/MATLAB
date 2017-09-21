@@ -19,7 +19,7 @@ mech_bip_list = round((max(mech_bip_range)-min(mech_bip_range)).*rand(N,1) + min
 
 max_line_lenght = 70;
 buffer_size = 5*max_line_lenght*N_stim*2;
-o=1;r=1;bad=struct([]);trial=struct([]);
+o=1;r=1;bad=struct([]);trial=struct([]);;temporal=struct([]);
 %% Start communication with Ingka
 [ ingka ] = f_ComINGKA( os );
 %% start communication with Arduino
@@ -53,11 +53,11 @@ for j=1:N
           elseif strcmp(error,'extra')==1
             disp('Error en el trial: Respuesta extra');
           elseif strcmp(error,'bad')==1
-            disp('Error en el trial: No comenzó a tapear');
+            disp('Error en el trial: Asincronía atípica');
           end
     else
         [ o,trial,temporal ] = save_good_data_ALTURAS(temporal,step,j,o,stim,resp,asyn,error,t_acc,x_acc,y_acc,z_acc,t_pr,pr,mech_size,mech_bip,trial,B_laps );
-        disp(['FIN de trial']);
+        disp('FIN de trial');
     end
     
     while isempty(error)==0
@@ -79,7 +79,7 @@ for j=1:N
             elseif strcmp(error,'extra')==1
                 disp('Error en el trial: Respuesta extra');
             elseif strcmp(error,'bad')==1
-                disp('Error en el trial: No comenzó a tapear');
+                disp('Error en el trial: Asincronía atípica');
             end
         else
             [ o,trial,temporal ] = save_good_data_ALTURAS(temporal,step,j,o,stim,resp,asyn,error,t_acc,x_acc,y_acc,z_acc,t_pr,pr,mech_size,mech_bip,trial,B_laps );
@@ -91,7 +91,7 @@ for j=1:N
     
     if step==2
         if (sum(find(j==B_laps))==0)==0
-            disp(['Fin del Bloque # ' num2str(find(B_laps==j)) ' .Para continuar presione una tecla' ]);
+            disp(['Fin del Bloque # ' num2str(find(B_laps==j)) ' . Para continuar presione una tecla (ATENCION: el trial comenzará inmediatamente' ]);
             pause()
         else
             pause((rand+2))

@@ -27,9 +27,9 @@ trial(j).pr(2,:) = t_pr;
 o=o+1;
 
 if step==1
-    temporal.ent_good=trial;
+     save('temporal_ent.mat','trial')
 elseif step==2
-    temporal.exp_good=trial;
+    save('temporal_exp.mat','trial')
 end
-save('temporal.mat','temporal')
+
 end
