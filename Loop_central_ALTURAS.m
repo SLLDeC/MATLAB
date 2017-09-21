@@ -19,7 +19,7 @@ mech_bip_list = round((max(mech_bip_range)-min(mech_bip_range)).*rand(N,1) + min
 
 max_line_lenght = 70;
 buffer_size = 5*max_line_lenght*N_stim*2;
-o=1;r=1;bad=struct([]);trial=struct([]);;temporal=struct([]);
+o=1;r=1;bad=struct([]);trial=struct([]);
 %% Start communication with Ingka
 [ ingka ] = f_ComINGKA( os );
 %% start communication with Arduino
@@ -47,7 +47,7 @@ for j=1:N
     [stim,resp,asyn,error,data] = f3_RecibeDatos(ardu);
     
     if isempty(error)==0
-        [ o,r,bad,temporal ] = save_bad_data_ALTURAS(temporal,step,r,o,stim,resp,asyn,error,t_acc,x_acc,y_acc,z_acc,t_pr,pr,mech_size,mech_bip,bad,B_laps );
+        [ o,r,bad ] = save_bad_data_ALTURAS(trial,step,r,o,stim,resp,asyn,error,t_acc,x_acc,y_acc,z_acc,t_pr,pr,mech_size,mech_bip,bad,B_laps );
           if strcmp(error,'missing')==1
             disp('Error en el trial: Faltó una respuesta');
           elseif strcmp(error,'extra')==1
@@ -56,7 +56,7 @@ for j=1:N
             disp('Error en el trial: Asincronía atípica');
           end
     else
-        [ o,trial,temporal ] = save_good_data_ALTURAS(temporal,step,j,o,stim,resp,asyn,error,t_acc,x_acc,y_acc,z_acc,t_pr,pr,mech_size,mech_bip,trial,B_laps );
+        [ o,trial] = save_good_data_ALTURAS(bad,step,j,o,stim,resp,asyn,error,t_acc,x_acc,y_acc,z_acc,t_pr,pr,mech_size,mech_bip,trial,B_laps );
         disp('FIN de trial');
     end
     
@@ -73,7 +73,7 @@ for j=1:N
         [stim,resp,asyn,error,data] = f3_RecibeDatos(ardu);
         
         if isempty(error)==0
-            [ o,r,bad,temporal ] = save_bad_data_ALTURAS(temporal,step,r,o,stim,resp,asyn,error,t_acc,x_acc,y_acc,z_acc,t_pr,pr,mech_size,mech_bip,bad,B_laps );
+            [ o,r,bad ] = save_bad_data_ALTURAS(trial,step,r,o,stim,resp,asyn,error,t_acc,x_acc,y_acc,z_acc,t_pr,pr,mech_size,mech_bip,bad,B_laps );
             if strcmp(error,'missing')==1
                 disp('Error en el trial: Faltó una respuesta');
             elseif strcmp(error,'extra')==1
@@ -82,7 +82,7 @@ for j=1:N
                 disp('Error en el trial: Asincronía atípica');
             end
         else
-            [ o,trial,temporal ] = save_good_data_ALTURAS(temporal,step,j,o,stim,resp,asyn,error,t_acc,x_acc,y_acc,z_acc,t_pr,pr,mech_size,mech_bip,trial,B_laps );
+            [ o,trial] = save_good_data_ALTURAS(bad,step,j,o,stim,resp,asyn,error,t_acc,x_acc,y_acc,z_acc,t_pr,pr,mech_size,mech_bip,trial,B_laps );
             disp('FIN de trial');
         end
         
@@ -91,7 +91,7 @@ for j=1:N
     
     if step==2
         if (sum(find(j==B_laps))==0)==0
-            disp(['Fin del Bloque # ' num2str(find(B_laps==j)) ' . Para continuar presione una tecla (ATENCION: el trial comenzará inmediatamente' ]);
+            disp(['Fin del Bloque # ' num2str(find(B_laps==j)) ' . Para continuar presione una tecla (ATENCION: el trial comenzará inmediatamente)' ]);
             pause()
         else
             pause((rand+2))
@@ -102,4 +102,5 @@ end
 
 fclose(ardu);
 f_CierraIngka( ingka );
+
 end
