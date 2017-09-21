@@ -1,4 +1,4 @@
-function [ o,trial,temporal ] = save_good_data_ALTURAS(temporal,step,j,o,stim,resp,asyn,error,t_acc,x_acc,y_acc,z_acc,t_pr,pr,mech_size,mech_bip,trial,B_laps )
+function [ o,trial ] = save_good_data_ALTURAS(bad,step,j,o,stim,resp,asyn,error,t_acc,x_acc,y_acc,z_acc,t_pr,pr,mech_size,mech_bip,trial,B_laps )
 
 trial(j).order = o;
 trial(j).trial = j;
@@ -27,9 +27,9 @@ trial(j).pr(2,:) = t_pr;
 o=o+1;
 
 if step==1
-     save('temporal_ent.mat','trial')
+     save('temporal_ent.mat','trial','bad')
 elseif step==2
-    save('temporal_exp.mat','trial')
+    save('temporal_exp.mat','trial','bad')
 end
 
 end
