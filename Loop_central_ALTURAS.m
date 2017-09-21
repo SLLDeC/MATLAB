@@ -83,7 +83,7 @@ for j=1:N
             end
         else
             [ o,trial,temporal ] = save_good_data_ALTURAS(temporal,step,j,o,stim,resp,asyn,error,t_acc,x_acc,y_acc,z_acc,t_pr,pr,mech_size,mech_bip,trial,B_laps );
-            disp(['FIN de trial']);
+            disp('FIN de trial');
         end
         
         pause((rand+2))
