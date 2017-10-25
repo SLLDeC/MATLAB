@@ -1,8 +1,10 @@
-function [ sujeto,sujeto_number ] = f_DatosSujeto(dir)
+function [ sujeto,sujeto_number ] = f_DatosSujeto(dir, exp)
 
 %% Numera al sujeto
- if exist(fullfile(dir,'sujetos.mat'),'file')==2
-    load('sujetos.mat')
+
+mat_name=['sujetos_' exp '.mat'];
+if exist(fullfile(dir,mat_name),'file')==2
+    load(mat_name)
     num_ant=length(sujeto);
     num_actual=num_ant+1;
     sujeto(num_actual).numero=num_actual;
