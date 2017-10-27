@@ -1,4 +1,4 @@
-function [ o,trial ] = save_good_data_ALTURAS(bad,step,j,o,stim,resp,asyn,error,t_acc,x_acc,y_acc,z_acc,t_pr,pr,mech_size,mech_bip,trial,B_laps )
+function [ o,trial ] = save_good_data_ALTURAS(exp,bad,step,j,o,stim,resp,asyn,error,t_acc,x_acc,y_acc,z_acc,t_pr,pr,mech_size,mech_bip,trial,B_laps )
 
 trial(j).order = o;
 trial(j).trial = j;
@@ -15,6 +15,7 @@ trial(j).mech_bip = mech_bip;
 trial(j).stim = stim;
 trial(j).resp = resp;
 trial(j).asyn = asyn;
+if isempty(x_acc)==0
 trial(j).x_acc(1,:) = x_acc;
 trial(j).x_acc(2,:) = t_acc;
 trial(j).y_acc(1,:) = y_acc;
@@ -23,12 +24,19 @@ trial(j).z_acc(1,:) = z_acc;
 trial(j).z_acc(2,:) = t_acc;
 trial(j).pr(1,:) = pr;
 trial(j).pr(2,:) = t_pr;
+end
 
 o=o+1;
 
 if step==1
-     save('temporal_ent.mat','trial','bad')
+    save('temporal_ent.mat','trial','bad')
 elseif step==2
+    if strcmp('alturas',exp)==1
+        save('temporal_exp.mat','trial','bad')
+    elseif strcmp('calibracion',exp)==1
+        save('temporal_cal.mat','trial','bad')
+    end
+elseif step==3
     save('temporal_exp.mat','trial','bad')
 end
 
