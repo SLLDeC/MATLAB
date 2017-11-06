@@ -1,4 +1,4 @@
-function [ o,r,bad ] = save_bad_data_ALTURAS(exp,trial,step,r,o,stim,resp,asyn,error,t_acc,x_acc,y_acc,z_acc,t_pr,pr,mech_size,mech_bip,bad,B_laps )
+function [ o,r,bad ] = save_bad_data_ALTURAS(exp,trial,step,r,o,stim,resp,asyn,error,t_acc,x_acc,y_acc,z_acc,t_pr,pr,mech_size,mech_bip,bad,B_laps,temp_size)
 
 bad(r).order = o;
 bad(r).trial = r;
@@ -11,6 +11,7 @@ for h=1:length(B_laps);
 end
 
 bad(r).mech_size = mech_size;
+bad(r).temp_size = temp_size;
 bad(r).mech_bip = mech_bip;
 bad(r).stim = stim;
 bad(r).resp = resp;
@@ -32,16 +33,18 @@ r=r+1;
 
 
 if step==1
-    save('temporal_ent.mat','trial','bad')
+    filename=['temporal_' exp '_ent.mat'];
 elseif step==2
     if strcmp('alturas',exp)==1
-        save('temporal_exp.mat','trial','bad')
-    elseif strcmp('calibracion',exp)==1
-        save('temporal_cal.mat','trial','bad')
+    filename=['temporal_' exp '_exp.mat'];
+    else
+    filename=['temporal_' exp '_cal.mat'];
     end
 elseif step==3
-    save('temporal_exp.mat','trial','bad')
+    filename=['temporal_' exp '_exp.mat'];
 end
+
+save(filename,'trial','bad')
 
 end
 
