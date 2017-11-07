@@ -41,27 +41,32 @@ y_up=[0 asyn(2)]';
 % asincronía límite
 if abs(fiteo_up.p1)>=abs(fiteo_down.p1) %NORMALMENTE!! Si m_up es mayor a m_down
 asyn_max=fiteo_down.p1*x_down(1); % asincronia -M
-
-for k=length(cat_M):1
-    if asyn_max>=cat_M(k){
+for k=length(cat_M):-1:1
+    if asyn_max>=cat_M(k)
         asyn_max=cat_M(k);
-        break}
+    break
     end
 end
 
-esc_max=x_down(1);
+esc_max=asyn_max/fiteo_down.p1;
 
 asyn_sim=-asyn_max; % asincronia simetrica
 esc_sim=asyn_sim/fiteo_up.p1;
+
 else
 asyn_max=fiteo_up.p1*x_up(2); % asincronia -M
-esc_max=x_up(2);
+for k=length(cat_M):-1:1
+    if asyn_max>=cat_M(k)
+        asyn_max=cat_M(k);
+    break
+    end
+end
+
+esc_max=asyn_max/fiteo_up.p1;
+
 asyn_sim=-asyn_max; % asincronia simetrica
 esc_sim=asyn_sim/fiteo_down.p1;
 end
-
-if asyn_max
-
 
 temp_sizes=round([asyn_max asyn_sim]);
 esc_sizes=[esc_sim esc_max];
